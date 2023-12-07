@@ -16,7 +16,7 @@ const scratchCard = (inputs) => {
         let cur = inp.split(/[:|]/)
         let [checkNums, luckyNums] = cleanArr(cur)
         cardAndWins.set(curCard, 1)
-        checkNums.forEach((num,) => {
+        checkNums.forEach((num) => {
             if (luckyNums.includes(num)) {
                 cardAndWins.set(curCard, cardAndWins.get(curCard) + 1)
             }
@@ -31,6 +31,7 @@ const scratchCard = (inputs) => {
         curCard++
     }
 
+
     curCard = 1
     for (inp of inputs) {
         const wins = cardAndWins.get(curCard)
@@ -42,6 +43,7 @@ const scratchCard = (inputs) => {
         }
         curCard++
     }
+
     return [...amountOfCards.values()].reduce((accum, cur) => accum + cur, 0)
 }
 
