@@ -64,7 +64,7 @@ const seedMapping = (inputs) => {
         let num = Number(inp[1])
         let replace = Number(inp[0])
         for (range of ranges) {
-            if (checkRange(range[0], range[1], num, num + count)) {
+            if (checkRange(range[0], range[1], num, num + count - 1)) {
                 if (range[2] === true) continue
                 createNewRange(range, num, num + count, replace, ranges)
             }
@@ -73,8 +73,6 @@ const seedMapping = (inputs) => {
     }
     return Math.min(...ranges.map(range => range[0]))
 }
-
-
 
 
 console.log(seedMapping(input))
