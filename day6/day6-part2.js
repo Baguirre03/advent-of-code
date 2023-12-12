@@ -4,7 +4,6 @@ const input = readFile('./day6/input.txt').split('\n')
 
 const boatRace = (input) => {
     let res = input.map((l) => l.split(' ').filter(x => x != '').splice(1).join('')).map(x => Number(x))
-    let final = []
 
     let time = res[0]
     let record = res[1]
