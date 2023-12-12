@@ -68,7 +68,6 @@ const seedMapping = (inputs) => {
     seeds.shift()
 
     let ranges = createSeedRanges(seeds)
-    let res = []
     for (inp of inputs) {
         if (inp.split(' ').length === 2) {
             ranges = ranges.map(range => [range[0], range[1], false])
@@ -90,8 +89,9 @@ const seedMapping = (inputs) => {
     return Math.min(...ranges.map(range => range[0]))
 }
 
-
-console.log(seedMapping(input))
+console.time("Time");
+console.log(seedMapping(input));
+console.timeEnd("Time");
 
 // 10114991
 // 10114992
