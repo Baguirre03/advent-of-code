@@ -2,44 +2,61 @@ const fs = require('fs');
 const readFile = (path) => fs.readFileSync(path, { encoding: "utf8" })
 const input = readFile('./day5/input.txt').split('\n').filter(x => x !== '')
 
-const checkRange = (rangeMin, rangeMax, checkMin, checkMax) => (rangeMin >= checkMin && rangeMin <= checkMax) || (rangeMax <= checkMax && rangeMax >= checkMin)
+const checkRange = (rangeMin, rangeMax, checkMin, checkMax) => {
+    if (rangeMin >= checkMax && rangeMax <= checkMax) return true
+    else if (rangeMin >= checkMin && rangeMin <= checkMax) return true
+    else if (rangeMax <= checkMax && rangeMax >= checkMin) return true
+    else if (rangeMin <= checkMax && rangeMax >= checkMax) return true
+    return false
+}
 
 const createSeedRanges = (seedsArr) => {
     let arr = []
     for (let i = 0; i < seedsArr.length; i += 2) {
-        arr.push([seedsArr[i], seedsArr[i + 1] + seedsArr[i], false])
+        arr.push([seedsArr[i], seedsArr[i + 1] + seedsArr[i] - 1, false])
     }
     return arr
 }
 
 const createNewRange = (curRange, numLow, numMax, replacement, rangeArr) => {
     let [low, high] = curRange
-    if (high > numMax) {
-        let newArr = [numMax + 1, high, false]
+    if (low < numLow && high > numMax) {
+        let newArr1 = [low, numLow - 1]
+        let newArr2 = [high + 1, numMax]
+        rangeArr.push(newArr1, newArr2)
+        let dif = numMax - numLow
+        curRange[0] = replacement
+        curRange[1] = dif + replacement
+        curRange[2] = true
+        return
+    } else if (low >= numLow && high <= numMax) {
+        let dif = low - numLow
+        let difHigh = high - numLow
+        curRange[0] = replacement + dif
+        curRange[1] = replacement + difHigh
+        curRange[2] = true
+        return
+    } else if (high > numMax) {
+        let newArr = [numMax + 1, high]
         rangeArr.push(newArr)
         high = numMax
         lowDif = low - numLow
         highDif = high - numLow
-        low = replacement + lowDif
-        high = replacement + highDif
+        curRange[0] = replacement + lowDif
+        curRange[1] = replacement + highDif
+        curRange[2] = true
+        return
     } else if (low < numLow) {
-        let newArr = [low, numLow - 1, false]
+        let newArr = [low, numLow - 1]
         rangeArr.push(newArr)
         low = numLow
         lowDif = low - numLow
         highDif = high - numLow
-        low = replacement + lowDif
-        high = replacement + highDif
-    } else {
-        let dif = low - numLow
-        let difHigh = high - numLow
-        low = replacement + dif
-        high = replacement + difHigh
+        curRange[0] = replacement + lowDif
+        curRange[1] = replacement + highDif
+        curRange[2] = true
+        return
     }
-    curRange[0] = low
-    curRange[1] = high
-    curRange[2] = true
-    return rangeArr
 }
 
 
@@ -51,8 +68,7 @@ const seedMapping = (inputs) => {
     seeds.shift()
 
     let ranges = createSeedRanges(seeds)
-
-
+    let res = []
     for (inp of inputs) {
         if (inp.split(' ').length === 2) {
             ranges = ranges.map(range => [range[0], range[1], false])
@@ -63,16 +79,20 @@ const seedMapping = (inputs) => {
         let count = Number(inp[2])
         let num = Number(inp[1])
         let replace = Number(inp[0])
+        let max = num + count - 1
         for (range of ranges) {
-            if (checkRange(range[0], range[1], num, num + count - 1)) {
+            if (checkRange(range[0], range[1], num, max)) {
                 if (range[2] === true) continue
-                createNewRange(range, num, num + count, replace, ranges)
+                else createNewRange(range, num, num + count, replace, ranges)
             }
         }
-
     }
     return Math.min(...ranges.map(range => range[0]))
 }
 
 
 console.log(seedMapping(input))
+
+// 10114991
+// 10114992
+// 9622622 - answer ?
