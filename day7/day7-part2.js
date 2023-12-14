@@ -108,5 +108,8 @@ const camelCards = (input) => {
 }
 
 
+console.time('done')
 console.log(camelCards(input))
+console.timeEnd('done')
+
 // 250506580
