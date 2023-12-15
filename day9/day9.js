@@ -1,8 +1,6 @@
-const { all } = require('express/lib/application');
 const fs = require('fs');
 const readFile = (path) => fs.readFileSync(path, { encoding: "utf8" })
 const input = readFile('./day9/input.txt').split('\n').map(inp => inp.split(' ').map(x => Number(x)))
-
 
 const allEqual = arr => arr.every(v => v === arr[0])
 
