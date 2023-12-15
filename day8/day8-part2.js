@@ -13,6 +13,7 @@ const createMap = (input) => {
         if (arr[0][2] === 'A') start.push(arr[0])
         mp.set(arr[0], [arr[1], arr[2]])
     }
+
     return [mp, start]
 }
 
@@ -21,7 +22,6 @@ const hauntedWasteland = (input) => {
     let [mp, curArr] = createMap(input)
     let lOrR = 0
     let steps = 0
-    const checker = (str) => str[2] === 'Z'
     let res = []
 
     while (curArr.length > 0) {
