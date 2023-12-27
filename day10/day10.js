@@ -20,6 +20,7 @@ const findS = (input) => {
 
 const findSides = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 const string = (x, y) => String(x) + String(y)
+const getBoard = (board, y, x) => board[y][x]
 
 const start = (sides) => {
     let cur = []
@@ -36,7 +37,6 @@ const start = (sides) => {
     return cur[0]
 }
 
-const getBoard = (board, y, x) => board[y][x]
 
 const pipeMaze = (input) => {
     const sCords = findS(input)
@@ -45,6 +45,7 @@ const pipeMaze = (input) => {
 
     let count = 0
     let last = string(sCords[0], sCords[1])
+
     while (curCord[0] !== 'S') {
         let opts = cases[curCord[0]]
         let nextPositions = opts.map((opt) => {
@@ -53,12 +54,10 @@ const pipeMaze = (input) => {
             let piece = getBoard(input, y, x)
             return [piece, y, x, string(y, x)]
         })
-
         nextPositions = nextPositions.filter(x => x[3] !== last)
         last = curCord[3]
         curCord = nextPositions[0]
         count++
-
     }
 
     return Math.round(count / 2)
