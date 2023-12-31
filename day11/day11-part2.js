@@ -68,4 +68,6 @@ const cosmicExpansic = (input) => {
     return res.reduce((cur, accum) => cur + accum)
 }
 
+console.time('time')
 console.log(cosmicExpansic(input))
+console.timeEnd('time')
