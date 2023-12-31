@@ -69,4 +69,6 @@ const hotSprings = (input) => {
     return res.reduce((acum, cur) => acum + cur)
 }
 
+console.time('time')
 console.log(hotSprings(input))
+console.timeEnd('time')
